@@ -39,7 +39,7 @@ public class LectureServiceTest {
     void getLectureById() {
         // given
         Long lectureId = 1L;
-        LectureEntity lectureEntity = new LectureEntity(lectureId, "운영체제", null);
+        LectureEntity lectureEntity = new LectureEntity(lectureId, "운영체제");
         when(lectureJpaRepository.findById(lectureId)).thenReturn(Optional.of(lectureEntity));
         // when
         Lecture lecture = lectureService.getLectureDetail(lectureId);

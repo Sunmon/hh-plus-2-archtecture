@@ -2,11 +2,11 @@ package com.hhplus.lecture.domain;
 
 import com.hhplus.lecture.entity.LectureEntity;
 
-public record Lecture(Long id, String name, Teacher teacher) {
+public record Lecture(Long id, String name) {
 
     public Lecture(LectureEntity lectureEntity) {
         // repository에서 매번 조회해오는게 맞아?
-        this(lectureEntity.getLectureId(), lectureEntity.getLectureName(), Teacher.fromEntity(lectureEntity.getTeacher()));
+        this(lectureEntity.getLectureId(), lectureEntity.getLectureName());
     }
 
     static Lecture fromEntity(LectureEntity lectureEntity) {
@@ -20,10 +20,10 @@ public record Lecture(Long id, String name, Teacher teacher) {
         if (lecture == null) {
             return null;
         }
-        return new LectureEntity(lecture.id(), lecture.name(), Teacher.toEntity(lecture.teacher()));
+        return new LectureEntity(lecture.id(), lecture.name());
     }
 
     public LectureEntity toEntity() {
-        return new LectureEntity(this.id(), this.name(), Teacher.toEntity(this.teacher()));
+        return new LectureEntity(this.id(), this.name());
     }
 }

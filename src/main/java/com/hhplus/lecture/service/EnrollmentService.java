@@ -11,8 +11,6 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public class EnrollmentService {
 
@@ -29,20 +27,12 @@ public class EnrollmentService {
         this.userService = userService;
     }
 
-
-    public List<Enrollment> getLectureEnrollments(Long userId) {
-//        return enrollmentJpaRepository.findByUserId(id).stream()
-//                .map(enrollmentEntity -> new Enrollment(enrollmentEntity))
-//                .toList();
-
-        return null;
-    }
-
-
+    @Transactional
     public Enrollment getEnrollment(Long enrollmentId) {
         return enrollmentRepository.findById(enrollmentId);
     }
 
+    @Transactional
     private Enrollment getEnrollment(Long scheduleId, Long userId) {
         Enrollment enrollment = getEnrollmentsBySchedule(scheduleId).getByUser(userId);
         if (enrollment == null) {
@@ -52,10 +42,12 @@ public class EnrollmentService {
         return enrollment;
     }
 
+    @Transactional
     public Enrollments getEnrollmentsBySchedule(Long scheduleId) {
         return enrollmentRepository.findByScheduleId(scheduleId);
     }
 
+    @Transactional
     private boolean isUserEnrolled(Long scheduleId, Long userId) {
         return getEnrollmentsBySchedule(scheduleId).getByUser(userId) != null;
     }
