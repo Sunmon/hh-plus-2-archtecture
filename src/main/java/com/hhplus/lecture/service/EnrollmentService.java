@@ -66,8 +66,6 @@ public class EnrollmentService {
 
     @Transactional
     public Enrollment enrollLecture(Long scheduleId, Long userId) {
-//        try {
-
         Schedule schedule = scheduleService.getSchedule(scheduleId);
         User user = userService.getUser(userId);
 
@@ -76,7 +74,8 @@ public class EnrollmentService {
             System.out.println("이미 등록한 강의");
             throw new EnrollmentException(ErrorCode.ENROLLMENT_ALREADY_EXISTS, null, scheduleId, userId);
         }
-        // 강의 인원 초과
+
+        // REVIEW - 강의 인원 초과 -> DB에 락을 걸었으므로 scheduleId에 대한 목록을 가져올때 인스턴스간 동기화하여 문제가 발생하지 않을것으로 예상
         if (Enrollments.isLectureFull(getEnrollmentsBySchedule(scheduleId))) {
             throw new EnrollmentException(ErrorCode.ENROLMENT_LIMIT_EXCEEDED, null, scheduleId, userId);
         }
@@ -84,12 +83,5 @@ public class EnrollmentService {
         // 강의 등록
         Enrollment enrollment = new Enrollment(null, schedule, user, null);
         return enrollmentRepository.insert(enrollment);
-
-
-//        } catch (EnrollmentException e) {
-//            TODO 다른 예외 처리... cause 필요?
-//            System.out.println(e);
-//            throw new EnrollmentException(ErrorCode.ENROLLMENT_FAILED, null, scheduleId, userId);
-//        }
     }
 }

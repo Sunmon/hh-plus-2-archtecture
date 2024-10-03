@@ -9,4 +9,3 @@ public record EnrollmentResponseDTO(Long scheduleId, Lecture lecture, Teacher te
         this(enrollment.schedule().id(), enrollment.schedule().lecture(), enrollment.schedule().teacher());
     }
 }
-
