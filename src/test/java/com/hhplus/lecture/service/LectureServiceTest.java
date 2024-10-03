@@ -2,30 +2,35 @@ package com.hhplus.lecture.service;
 
 import com.hhplus.lecture.domain.Lecture;
 import com.hhplus.lecture.entity.LectureEntity;
-import com.hhplus.lecture.repository.LectureRepository;
+import com.hhplus.lecture.repository.LectureJpaRepository;
+import com.hhplus.lecture.repository.LectureRepositoryImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.assertj.core.api.Assertions.assertThat;;
+import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
+
+@ExtendWith(MockitoExtension.class)
 
 public class LectureServiceTest {
 
+    @Mock
+    LectureJpaRepository lectureJpaRepository;
+    @InjectMocks
+    LectureRepositoryImpl lectureRepository;
+
     LectureService lectureService;
-    LectureRepository lectureRepository;
 
     @BeforeEach
     void setUp() {
-        lectureRepository = new LectureRepository(){
-            @Override
-            public LectureEntity findById(Long lectureId) {
-                return new LectureEntity(lectureId, "운영체제", null);
-            }
-        };
-
-//        lectureRepository = lectureId -> new LectureEntity(lectureId, "운영체제", 100L);
-
-
+//        MockitoAnnotations.openMocks(this);
         lectureService = new LectureService(lectureRepository);
     }
 
@@ -34,10 +39,12 @@ public class LectureServiceTest {
     void getLectureById() {
         // given
         Long lectureId = 1L;
+        LectureEntity lectureEntity = new LectureEntity(lectureId, "운영체제", null);
+        when(lectureJpaRepository.findById(lectureId)).thenReturn(Optional.of(lectureEntity));
         // when
         Lecture lecture = lectureService.getLectureDetail(lectureId);
         // then
         assertThat(lecture.id()).isEqualTo(lectureId);
+        assertThat(lecture.name()).isEqualTo("운영체제");
     }
-
 }

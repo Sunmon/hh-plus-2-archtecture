@@ -121,3 +121,41 @@ DB에서 사용할 식별자와 일치시키면 불필요한 서비스 로직을
 - 신청 히스토리로 관리하는 것 (매번 select 필요)
 
 두 방법중 어느 방법이 좋을지는 아직 모르겠다.
+
+
+> 엔티티 설계: 엔티티에 Long id만 두기 vs 다른 엔티티 자체를 두기
+
+```java
+import java.time.LocalDateTime;
+
+// id만 두기 (fk)
+@Entity
+class LectureEnrollment {
+    Long lectureId;
+    Long userId;
+    LocalDateTime createdAt;
+}
+
+// 객체를 두기 (fk)
+@Entity
+class LectureEnrollment {
+    Lecture lecture;
+    User user;
+    LocalDateTime createdAt;
+}
+
+```
+
+
+설계 이렇게 한다!
+
+Service <--(Domain)--> Repository <--(Entity)--> JPA Repository <--> DB
+
+- Entity는 JPA에서 사용하는 어노테이션. 따라서 특정 구현체에 의존하는것과 같다고 생각함
+- 서비스를 특정 구현에 한정하지 않기 위하여 JPA Repository와 Service 사이에 Repository 한 계층을 더함
+
+
+
+
+
+
