@@ -4,7 +4,9 @@ import java.util.List;
 
 public class Enrollments {
 
-    static final int MAX_ENROLLMENT = 30;
+    // 테스트용으로 3으로 줄임
+//    static final int MAX_ENROLLMENT = 30;
+    static public final int MAX_ENROLLMENT = 3;
 
     List<Enrollment> enrollmentList;
 

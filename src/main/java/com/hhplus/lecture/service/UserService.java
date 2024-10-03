@@ -4,6 +4,7 @@ import com.hhplus.lecture.common.UserException;
 import com.hhplus.lecture.domain.User;
 import com.hhplus.lecture.repository.UserRepository;
 import com.hhplus.lecture.repository.UserRepositoryImpl;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,7 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
+    @Transactional
     User getUser(Long userId) throws UserException {
         return userRepository.findById(userId);
     }

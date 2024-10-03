@@ -73,7 +73,7 @@ public class EnrollmentServiceTest {
     void testGetEnrollmentDetail() {
         // given
         Long enrollmentId = 1L;
-        EnrollmentEntity enrollmentEntity = new EnrollmentEntity(enrollmentId, new ScheduleEntity(), new UserEntity(), null);
+        EnrollmentEntity enrollmentEntity = new EnrollmentEntity(enrollmentId, new ScheduleEntity(), new UserEntity());
         when(enrollmentRepository.findById(enrollmentId)).thenReturn(new Enrollment(enrollmentEntity));
         // when
         Enrollment enrollment = enrollmentService.getEnrollment(enrollmentId);
@@ -88,8 +88,8 @@ public class EnrollmentServiceTest {
         // given
         Long enrollmentId = 1L;
         Long scheduleId = 123L;
-        EnrollmentEntity enrollmentEntity1 = new EnrollmentEntity(1L, new ScheduleEntity(scheduleId), new UserEntity(), null);
-        EnrollmentEntity enrollmentEntity2 = new EnrollmentEntity(2L, new ScheduleEntity(scheduleId), new UserEntity(), null);
+        EnrollmentEntity enrollmentEntity1 = new EnrollmentEntity(1L, new ScheduleEntity(scheduleId), new UserEntity());
+        EnrollmentEntity enrollmentEntity2 = new EnrollmentEntity(2L, new ScheduleEntity(scheduleId), new UserEntity());
         // when
         when(enrollmentRepository.findByScheduleId(scheduleId)).thenReturn(new Enrollments(List.of(new Enrollment(enrollmentEntity1), new Enrollment(enrollmentEntity2))));
         Enrollments enrollments = enrollmentService.getEnrollmentsBySchedule(scheduleId);
@@ -119,7 +119,7 @@ public class EnrollmentServiceTest {
         Long scheduleId = 123L;
 
         // REVIEW - 테스트 조건이 너무 강결합 된 것 같다
-        EnrollmentEntity enrollmentEntity = new EnrollmentEntity(enrollmentId, new ScheduleEntity(scheduleId), new UserEntity(userId, "유저1"), null);
+        EnrollmentEntity enrollmentEntity = new EnrollmentEntity(enrollmentId, new ScheduleEntity(scheduleId), new UserEntity(userId, "유저1"));
         Enrollment enrollment = new Enrollment(enrollmentEntity);
 
         when(userService.getUser(userId)).thenReturn(new User(new UserEntity(userId, "유저1")));

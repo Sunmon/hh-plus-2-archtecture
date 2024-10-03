@@ -12,10 +12,17 @@ public record Enrollment(Long id, Schedule schedule, User user, LocalDateTime cr
     }
 
     public EnrollmentEntity toEntity(Enrollment enrollment) {
-        return new EnrollmentEntity(enrollment.id(), enrollment.schedule().toEntity(), enrollment.user().toEntity(), enrollment.createdDate());
+//        if (enrollment.createdDate == null) {
+        return new EnrollmentEntity(enrollment.id(), enrollment.schedule().toEntity(), enrollment.user().toEntity());
+//        }
+//        return new EnrollmentEntity(enrollment.id(), enrollment.schedule().toEntity(), enrollment.user().toEntity(), enrollment.createdDate());
     }
 
+
     public EnrollmentEntity toEntity() {
-        return new EnrollmentEntity(id, Schedule.toEntity(schedule), User.toEntity(user), createdDate);
+//        if (this.createdDate == null) {
+        return new EnrollmentEntity(id, Schedule.toEntity(schedule), User.toEntity(user));
+//        }
+//        return new EnrollmentEntity(id, Schedule.toEntity(schedule), User.toEntity(user), createdDate);
     }
 }

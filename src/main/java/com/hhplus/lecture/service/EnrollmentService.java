@@ -43,6 +43,11 @@ public class EnrollmentService {
     }
 
     @Transactional
+    public int getCountOfEnrollments(Long scheduleId) {
+        return getEnrollmentsBySchedule(scheduleId).size();
+    }
+
+    @Transactional
     public Enrollments getEnrollmentsBySchedule(Long scheduleId) {
         return enrollmentRepository.findByScheduleId(scheduleId);
     }
@@ -54,26 +59,30 @@ public class EnrollmentService {
 
     @Transactional
     public Enrollment enrollLecture(Long scheduleId, Long userId) {
-        try {
-            Schedule schedule = scheduleService.getSchedule(scheduleId);
-            User user = userService.getUser(userId);
+//        try {
 
-            // 이미 등록한 강의
-            if (isUserEnrolled(scheduleId, userId)) {
-                throw new EnrollmentException(ErrorCode.ENROLLMENT_ALREADY_EXISTS, null, scheduleId, userId);
-            }
-            // 강의 인원 초과
-            if (Enrollments.isLectureFull(getEnrollmentsBySchedule(scheduleId))) {
-                throw new EnrollmentException(ErrorCode.ENROLMENT_LIMIT_EXCEEDED, null, scheduleId, userId);
-            }
+        Schedule schedule = scheduleService.getSchedule(scheduleId);
+        User user = userService.getUser(userId);
 
-            // 강의 등록
-            Enrollment enrollment = new Enrollment(null, schedule, user, null);
-            return enrollmentRepository.insert(enrollment);
-        } catch (RuntimeException e) {
-//            TODO 다른 예외 처리... cause 필요?
-            System.out.println(e);
-            throw new EnrollmentException(ErrorCode.ENROLLMENT_FAILED, null, scheduleId, userId);
+        // 이미 등록한 강의
+        if (isUserEnrolled(scheduleId, userId)) {
+            System.out.println("이미 등록한 강의");
+            throw new EnrollmentException(ErrorCode.ENROLLMENT_ALREADY_EXISTS, null, scheduleId, userId);
         }
+        // 강의 인원 초과
+        if (Enrollments.isLectureFull(getEnrollmentsBySchedule(scheduleId))) {
+            throw new EnrollmentException(ErrorCode.ENROLMENT_LIMIT_EXCEEDED, null, scheduleId, userId);
+        }
+
+        // 강의 등록
+        Enrollment enrollment = new Enrollment(null, schedule, user, null);
+        return enrollmentRepository.insert(enrollment);
+
+
+//        } catch (EnrollmentException e) {
+//            TODO 다른 예외 처리... cause 필요?
+//            System.out.println(e);
+//            throw new EnrollmentException(ErrorCode.ENROLLMENT_FAILED, null, scheduleId, userId);
+//        }
     }
 }

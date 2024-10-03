@@ -3,6 +3,7 @@ package com.hhplus.lecture.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
 @Getter
 @Entity
 @Table(name = "enrollments")
+@EntityListeners(AuditingEntityListener.class)
 public class EnrollmentEntity {
 
     @Id
@@ -31,16 +33,21 @@ public class EnrollmentEntity {
     // private Date enrollmentDate;
     @CreatedDate
     @Column(columnDefinition = "TIMESTAMP")
-    private LocalDateTime createDate;
+    protected LocalDateTime createDate;
 
     public EnrollmentEntity() {
     }
 
-    public EnrollmentEntity(Long id, ScheduleEntity scheduleEntity, UserEntity user, LocalDateTime createDate) {
+//    public EnrollmentEntity(Long id, ScheduleEntity scheduleEntity, UserEntity user, LocalDateTime createDate) {
+//        this.id = id;
+//        this.schedule = scheduleEntity;
+//        this.user = user;
+//        this.createDate = createDate;
+//    }
+
+    public EnrollmentEntity(Long id, ScheduleEntity scheduleEntity, UserEntity user) {
         this.id = id;
         this.schedule = scheduleEntity;
         this.user = user;
-        this.createDate = createDate;
     }
-
 }

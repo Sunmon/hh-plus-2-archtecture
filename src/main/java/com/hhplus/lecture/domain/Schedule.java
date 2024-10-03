@@ -4,9 +4,9 @@ import com.hhplus.lecture.entity.ScheduleEntity;
 
 import java.time.LocalDate;
 
-public record Schedule(Long id, Lecture lecture, Teacher teacher, LocalDate date) {
+public record Schedule(Long id, Lecture lecture, Teacher teacher, LocalDate date, int remain) {
     public Schedule(ScheduleEntity scheduleEntity) {
-        this(scheduleEntity.getId(), Lecture.fromEntity(scheduleEntity.getLecture()), Teacher.fromEntity(scheduleEntity.getTeacher()), scheduleEntity.getDate());
+        this(scheduleEntity.getId(), Lecture.fromEntity(scheduleEntity.getLecture()), Teacher.fromEntity(scheduleEntity.getTeacher()), scheduleEntity.getDate(), 0);
     }
 
     public static Schedule fromEntity(ScheduleEntity scheduleEntity) {
@@ -23,6 +23,10 @@ public record Schedule(Long id, Lecture lecture, Teacher teacher, LocalDate date
 
     public ScheduleEntity toEntity() {
         return new ScheduleEntity(this.id(), Lecture.toEntity(this.lecture()), Teacher.toEntity(this.teacher()), this.date());
+    }
+
+    public Schedule withRemainCount(int count) {
+        return new Schedule(this.id(), this.lecture(), this.teacher(), this.date(), count);
     }
 
 
