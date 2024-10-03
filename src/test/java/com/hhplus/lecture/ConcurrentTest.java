@@ -66,4 +66,51 @@ public class ConcurrentTest {
         // 30개만 있어야 함.
         assertThat(enrollments.size()).isEqualTo(30);
     }
+
+
+    @Description("동일한 사용자가 동일한 특강에 대해 한번씩만 신청 가능해야 한다.")
+    @Test
+    @Transactional
+    void testConcurrentEnrollmentOnlyOnce() throws InterruptedException, ExecutionException {
+        Long scheduleId = 1L;
+        Long userId = 1L;
+
+        // given
+        ExecutorService executorService = Executors.newFixedThreadPool(30);
+        List<Future<Void>> futures = new ArrayList<>();
+
+
+        for (int i = 0; i < 5; i++) {
+            Long currentUserId = userId;  // 같은 사용자가 여러번 신청
+
+            Callable<Void> task = () -> {
+                try {
+                    enrollmentService.enrollLecture(scheduleId, currentUserId);
+                } catch (Exception e) {
+                    System.out.println("신청 1번 초과하여 exception 발생");
+//                    e.printStackTrace();
+                }
+
+                return null;
+            };
+            futures.add(executorService.submit(task));  // 스레드 실행
+        }
+
+
+        for (Future<Void> future : futures) {
+            future.get();
+        }
+
+        executorService.shutdown();
+        executorService.awaitTermination(1, TimeUnit.MINUTES);
+
+        // then
+        Enrollments enrollments = enrollmentService.getEnrollmentsBySchedule(scheduleId);
+
+        // 같은 사용자는 한번씩만 신청 가능해야 함.
+        assertThat(enrollments.size()).isEqualTo(1);
+        assertThat(enrollments.getEnrollmentList().stream().map(enrollment -> enrollment.user().id())).doesNotHaveDuplicates();
+    }
+
+
 }
