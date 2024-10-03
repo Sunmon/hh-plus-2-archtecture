@@ -1,8 +1,8 @@
 package com.hhplus.lecture.controller;
 
-import com.hhplus.lecture.domain.Enrollment;
 import com.hhplus.lecture.domain.Enrollments;
 import com.hhplus.lecture.domain.Schedule;
+import com.hhplus.lecture.dto.EnrollmentResponseDTO;
 import com.hhplus.lecture.service.EnrollmentService;
 import com.hhplus.lecture.service.ScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,13 +38,11 @@ public class ScheduleController {
                 schedule.withRemainCount(Enrollments.MAX_ENROLLMENT - enrollmentService.getCountOfEnrollments(schedule.id()))
         ).collect(Collectors.groupingBy(Schedule::date));
     }
-
-
+    
     //  수강신청 후 결과를 리턴한다.
     @PostMapping("{id}")
-    public Enrollment bookSchedule(@PathVariable Long id, @RequestBody Long userId) {
-        // 스케줄 상세 조회 로직
-        return enrollmentService.enrollLecture(id, userId);
+    public EnrollmentResponseDTO bookSchedule(@PathVariable Long id, @RequestBody Long userId) {
+        return new EnrollmentResponseDTO(enrollmentService.enrollLecture(id, userId));
     }
 
 
