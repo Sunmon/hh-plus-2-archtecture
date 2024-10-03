@@ -80,8 +80,8 @@ public class ConcurrentTest {
         List<Future<Void>> futures = new ArrayList<>();
 
 
-        for (int i = 0; i < 30; i++) {
-            Long currentUserId = ((userId + i) % 10 + 1);  // 같은 사용자가 여러번 신청
+        for (int i = 0; i < 5; i++) {
+            Long currentUserId = userId;  // 같은 사용자가 여러번 신청
 
             Callable<Void> task = () -> {
                 try {
@@ -108,6 +108,9 @@ public class ConcurrentTest {
         Enrollments enrollments = enrollmentService.getEnrollmentsBySchedule(scheduleId);
 
         // 같은 사용자는 한번씩만 신청 가능해야 함.
+        assertThat(enrollments.size()).isEqualTo(1);
         assertThat(enrollments.getEnrollmentList().stream().map(enrollment -> enrollment.user().id())).doesNotHaveDuplicates();
     }
+
+
 }
