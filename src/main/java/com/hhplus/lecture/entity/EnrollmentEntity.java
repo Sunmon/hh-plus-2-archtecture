@@ -2,7 +2,6 @@ package com.hhplus.lecture.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
@@ -12,31 +11,33 @@ import java.time.LocalDateTime;
  */
 @Getter
 @Entity
-@ToString
+@Table(name = "enrollments")
 public class EnrollmentEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long enrollmentId;
+    @Column(name = "enrollment_id")
+    private Long id;
 
-    @Column(nullable = false)
-    @JoinColumn(name = "scheduleId")
+    @ManyToOne
+    @JoinColumn(name = "schedule_id")
     private ScheduleEntity schedule;
 
-    @Column(nullable = false)
-    @JoinColumn(name = "userId")
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     private UserEntity user;
 
     // Date는 mutable -> thread-safe (X)
     // private Date enrollmentDate;
     @CreatedDate
+    @Column(columnDefinition = "TIMESTAMP")
     private LocalDateTime createDate;
 
     public EnrollmentEntity() {
     }
 
     public EnrollmentEntity(Long id, ScheduleEntity scheduleEntity, UserEntity user, LocalDateTime createDate) {
-        this.enrollmentId = id;
+        this.id = id;
         this.schedule = scheduleEntity;
         this.user = user;
         this.createDate = createDate;

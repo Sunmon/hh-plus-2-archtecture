@@ -10,27 +10,30 @@ import java.time.LocalDate;
  */
 @Entity
 @Getter
+@Table(name = "schedules")
 public class ScheduleEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long scheduleId;
+    @Column(name = "schedule_id")
+    private Long id;
 
     @ManyToOne // 하나의 강의는 여러개의 스케줄을 가질 수 있음
-    @JoinColumn(name = "lectureId")
+    @JoinColumn(name = "lecture_id")
     private LectureEntity lecture;
 
     @ManyToOne // 한 강연자는 여러개의 스케쥴을 가질 수 있음
-    @JoinColumn(name = "teacherId")
+    @JoinColumn(name = "teacher_id")
     private TeacherEntity teacher;
 
+    @Column(columnDefinition = "DATE", name = "schedule_date")
     private LocalDate date;
 
     public ScheduleEntity(Long scheduleId) {
-        this.scheduleId = scheduleId;
+        this.id = scheduleId;
     }
 
     public ScheduleEntity(Long scheduleId, LectureEntity lecture, TeacherEntity teacher, LocalDate date) {
-        this.scheduleId = scheduleId;
+        this.id = scheduleId;
         this.lecture = lecture;
         this.teacher = teacher;
         this.date = date;

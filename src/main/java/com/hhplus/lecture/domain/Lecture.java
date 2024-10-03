@@ -6,7 +6,7 @@ public record Lecture(Long id, String name) {
 
     public Lecture(LectureEntity lectureEntity) {
         // repository에서 매번 조회해오는게 맞아?
-        this(lectureEntity.getLectureId(), lectureEntity.getLectureName());
+        this(lectureEntity.getId(), lectureEntity.getName());
     }
 
     static Lecture fromEntity(LectureEntity lectureEntity) {

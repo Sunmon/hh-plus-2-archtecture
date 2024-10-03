@@ -48,7 +48,8 @@ public class EnrollmentRepositoryImpl implements EnrollmentRepository {
 
     @Override
     public Enrollment insert(Enrollment enrollment) {
-        return new Enrollment(enrollmentJpaRepository.insert(enrollment.toEntity()));
+//        return new Enrollment(enrollmentJpaRepository.insert(enrollment.toEntity()));
+        return new Enrollment(enrollmentJpaRepository.save(enrollment.toEntity()));
     }
 
 }

@@ -4,7 +4,7 @@ import com.hhplus.lecture.entity.TeacherEntity;
 
 public record Teacher(Long id, String name) {
     public Teacher(TeacherEntity teacherEntity) {
-        this(teacherEntity.getTeacherId(), teacherEntity.getTeacherName());
+        this(teacherEntity.getId(), teacherEntity.getName());
     }
 
     // Teacher 변환을 위한 보조 메서드

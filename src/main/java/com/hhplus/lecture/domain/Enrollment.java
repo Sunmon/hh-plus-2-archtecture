@@ -8,7 +8,7 @@ import static com.hhplus.lecture.domain.User.fromEntity;
 
 public record Enrollment(Long id, Schedule schedule, User user, LocalDateTime createdDate) {
     public Enrollment(EnrollmentEntity enrollmentEntity) {
-        this(enrollmentEntity.getEnrollmentId(), Schedule.fromEntity(enrollmentEntity.getSchedule()), fromEntity(enrollmentEntity.getUser()), enrollmentEntity.getCreateDate());
+        this(enrollmentEntity.getId(), Schedule.fromEntity(enrollmentEntity.getSchedule()), fromEntity(enrollmentEntity.getUser()), enrollmentEntity.getCreateDate());
     }
 
     public EnrollmentEntity toEntity(Enrollment enrollment) {

@@ -6,7 +6,7 @@ import java.time.LocalDate;
 
 public record Schedule(Long id, Lecture lecture, Teacher teacher, LocalDate date) {
     public Schedule(ScheduleEntity scheduleEntity) {
-        this(scheduleEntity.getScheduleId(), Lecture.fromEntity(scheduleEntity.getLecture()), Teacher.fromEntity(scheduleEntity.getTeacher()), scheduleEntity.getDate());
+        this(scheduleEntity.getId(), Lecture.fromEntity(scheduleEntity.getLecture()), Teacher.fromEntity(scheduleEntity.getTeacher()), scheduleEntity.getDate());
     }
 
     public static Schedule fromEntity(ScheduleEntity scheduleEntity) {

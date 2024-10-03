@@ -5,7 +5,7 @@ import com.hhplus.lecture.entity.UserEntity;
 public record User(Long id, String userName) {
 
     public User(UserEntity userEntity) {
-        this(userEntity.getUserId(), userEntity.getUserName());
+        this(userEntity.getId(), userEntity.getName());
     }
 
     static User fromEntity(UserEntity userEntity) {

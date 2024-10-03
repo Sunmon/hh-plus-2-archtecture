@@ -1,5 +1,6 @@
 package com.hhplus.lecture.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -7,17 +8,18 @@ import lombok.Getter;
 
 @Getter
 @Entity
-@Table(name = "lecture")
+@Table(name = "lectures")
 public class LectureEntity {
     @Id
-    private Long lectureId;
-    private String lectureName;
+    @Column(name = "lecture_id")
+    private Long id;
+    private String name;
 
     public LectureEntity() {
     }
 
-    public LectureEntity(Long lectureId, String lectureName) {
-        this.lectureId = lectureId;
-        this.lectureName = lectureName;
+    public LectureEntity(Long lectureId, String name) {
+        this.id = lectureId;
+        this.name = name;
     }
 }
