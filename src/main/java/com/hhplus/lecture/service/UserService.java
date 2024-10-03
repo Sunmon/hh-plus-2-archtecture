@@ -1,10 +1,13 @@
 package com.hhplus.lecture.service;
 
+import com.hhplus.lecture.common.UserException;
 import com.hhplus.lecture.domain.User;
 import com.hhplus.lecture.repository.UserRepository;
 import com.hhplus.lecture.repository.UserRepositoryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class UserService {
     final UserRepository userRepository;
 
@@ -13,7 +16,7 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    User getUser(Long userId) {
+    User getUser(Long userId) throws UserException {
         return userRepository.findById(userId);
     }
 }

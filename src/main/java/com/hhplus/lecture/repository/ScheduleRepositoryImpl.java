@@ -17,7 +17,7 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
     }
 
     @Override
-    public Schedule findById(Long scheduleId) {
+    public Schedule findById(Long scheduleId) throws ScheduleException {
         ScheduleEntity scheduleEntity = scheduleJpaRepository.findById(scheduleId)
                 .orElseThrow(() -> new ScheduleException(ErrorCode.SCHEDULE_NOT_FOUND, scheduleId));
         return new Schedule(scheduleEntity);

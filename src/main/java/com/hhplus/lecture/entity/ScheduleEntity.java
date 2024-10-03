@@ -5,6 +5,9 @@ import lombok.Getter;
 
 import java.time.LocalDate;
 
+/**
+ * 강의 일정 Entity
+ */
 @Entity
 @Getter
 public class ScheduleEntity {
@@ -24,6 +27,13 @@ public class ScheduleEntity {
 
     public ScheduleEntity(Long scheduleId) {
         this.scheduleId = scheduleId;
+    }
+
+    public ScheduleEntity(Long scheduleId, LectureEntity lecture, TeacherEntity teacher, LocalDate date) {
+        this.scheduleId = scheduleId;
+        this.lecture = lecture;
+        this.teacher = teacher;
+        this.date = date;
     }
 
     public ScheduleEntity() {

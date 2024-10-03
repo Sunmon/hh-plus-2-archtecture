@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @Entity
-@Table(name="teacher")
+@Table(name = "teacher")
 public class TeacherEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,5 +13,10 @@ public class TeacherEntity {
     private String teacherName;
 
     public TeacherEntity() {
+    }
+
+    public TeacherEntity(Long teacherId, String teacherName) {
+        this.teacherId = teacherId;
+        this.teacherName = teacherName;
     }
 }
