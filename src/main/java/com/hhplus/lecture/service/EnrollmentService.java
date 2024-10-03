@@ -52,6 +52,13 @@ public class EnrollmentService {
         return enrollmentRepository.findByScheduleId(scheduleId);
     }
 
+
+    @Transactional
+    public Enrollments getEnrollmentsByUser(Long userId) {
+        return enrollmentRepository.findByUserId(userId);
+    }
+
+
     @Transactional
     private boolean isUserEnrolled(Long scheduleId, Long userId) {
         return getEnrollmentsBySchedule(scheduleId).getByUser(userId) != null;

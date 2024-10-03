@@ -38,11 +38,19 @@ public class ScheduleController {
                 schedule.withRemainCount(Enrollments.MAX_ENROLLMENT - enrollmentService.getCountOfEnrollments(schedule.id()))
         ).collect(Collectors.groupingBy(Schedule::date));
     }
-    
+
     //  수강신청 후 결과를 리턴한다.
     @PostMapping("{id}")
     public EnrollmentResponseDTO bookSchedule(@PathVariable Long id, @RequestBody Long userId) {
         return new EnrollmentResponseDTO(enrollmentService.enrollLecture(id, userId));
+    }
+
+    @GetMapping("user/{id}")
+    public List<EnrollmentResponseDTO> getEnrollments(@PathVariable Long id) {
+        return enrollmentService.getEnrollmentsByUser(id).getEnrollmentList().stream()
+                .map(EnrollmentResponseDTO::new)
+                .collect(Collectors.toList());
+//        return new EnrollmentResponseDTO(enrollmentService.enrollLecture(id, userId));
     }
 
 

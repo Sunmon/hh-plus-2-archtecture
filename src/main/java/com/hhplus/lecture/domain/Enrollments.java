@@ -1,14 +1,17 @@
 package com.hhplus.lecture.domain;
 
+import lombok.Getter;
+
 import java.util.List;
 
+@Getter
 public class Enrollments {
 
     // 테스트용으로 3으로 줄임
 //    static final int MAX_ENROLLMENT = 30;
     static public final int MAX_ENROLLMENT = 3;
 
-    List<Enrollment> enrollmentList;
+    private final List<Enrollment> enrollmentList;
 
     public Enrollments(List<Enrollment> enrollmentList) {
         this.enrollmentList = enrollmentList;
